@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 const formData = require('express-form-data');
 
 const atalsConnUri = 'mongodb+srv://GSoul:GSoul12@cluster0.i5wqp6u.mongodb.net/GSoulName?retryWrites=true&w=majority';
-let PORT = +process.env.PORT || 7516;
+let PORT = +process.env.PORT || 7519;
 
 //=== 1 - CREATE APP
 // Creating express app and configuring middleware needed for authentication
