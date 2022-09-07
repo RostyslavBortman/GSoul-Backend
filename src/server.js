@@ -7,7 +7,7 @@ const path = require('path');
 var bodyParser = require('body-parser');
 const formData = require('express-form-data');
 
-const atalsConnUri = process.env.MONGO_ATLAS_CONN_URL;
+const atalsConnUri = 'mongodb+srv://GSoul:GSoul12@cluster0.i5wqp6u.mongodb.net/GSoulName?retryWrites=true&w=majority';
 let PORT = +process.env.PORT || 7516;
 
 //=== 1 - CREATE APP
