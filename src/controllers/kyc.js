@@ -6,6 +6,8 @@ const {
 	ERROR_ADDRESS_TAKEN,
 	ERROR_WRONG_EMAIL,
 	WRONG_JWT,
+	ERROR_WHILE_CHEKING_JWT,
+	MISSING_AUTHORRIZATION_HEADER,
 } = require('../const/const.js');
 
 // @route POST api/kyc/addUser
@@ -14,12 +16,13 @@ const {
 
 exports.addUser = async (req, res) => {
 	try {
+		if (!req.headers.authorization) return res.status(401).json({ message: MISSING_AUTHORRIZATION_HEADER });
+
 		const jwtResult = await checkJwt(req);
 		if (jwtResult.status === 401) return res.status(401).json({ message: WRONG_JWT });
+		if (jwtResult.status !== 200) return res.status(401).json({ message: ERROR_WHILE_CHEKING_JWT });
 
 		const { email, name, lastName, birthday, sex, kyc, address } = req.body;
-
-		// if (isEmail(email)) return res.status(500).json({ message: ERROR_WRONG_EMAIL });
 
 		let userByAddress = await Kyc.findOne({ address });
 
