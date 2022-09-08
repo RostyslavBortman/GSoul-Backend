@@ -13,7 +13,7 @@ const EIP712DomainType = [
 ];
 
 const buildMessageTest = (rawMessage, chainId, verifyingContract) => {
-	const { verifierAddress, to, nonce } = rawMessage;
+	const { verifierAddress, to, nonce, uri } = rawMessage;
 	return {
 		domain: {
 			chainId,
