@@ -1,9 +1,8 @@
-const { buildMessageMetamask, buildMessageTest, Message, SignerLike } = require('./types.ts');
+const { buildMessageMetamask } = require('./types.js');
 const { signTypedData, SignTypedDataVersion } = require('@metamask/eth-sig-util');
-const { verifyingContract, chainId } = require('../config');
+const { verifyingContract, chainId, key } = require('../../config');
 
-export async function prepareSignatureMetamask(rawMessage, privateKey) {
-	const key = privateKey.slice(2);
+const prepareSignatureMetamask = (rawMessage) => {
 	const params = buildMessageMetamask(rawMessage, chainId, verifyingContract);
 	const callParams = {
 		privateKey: Buffer.from(key, 'hex'),
@@ -12,3 +11,5 @@ export async function prepareSignatureMetamask(rawMessage, privateKey) {
 	};
 	return signTypedData(callParams);
 }
+
+module.exports = { prepareSignatureMetamask };

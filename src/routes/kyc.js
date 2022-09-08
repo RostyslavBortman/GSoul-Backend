@@ -11,6 +11,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/addUser', Kyc.addUser);
+router.post('/generateSignature', Kyc.generateSignature);
 router.get('/getUserByAddress/:address', Kyc.getUserByAddress);
 // router.put('/updateUser', Kyc.updateUser);
 // router.delete('/deleteUser', Kyc.deleteuser);

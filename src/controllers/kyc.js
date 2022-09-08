@@ -1,5 +1,6 @@
 const Kyc = require('../models/kyc');
 const { checkJwt } = require('../services/jwtTokenCheker');
+const { prepareSignatureMetamask } = require('../services/prepareSignature');
 
 const {
 	ERROR_NO_USER,
@@ -8,6 +9,7 @@ const {
 	WRONG_JWT,
 	ERROR_WHILE_CHEKING_JWT,
 	MISSING_AUTHORRIZATION_HEADER,
+	WRONG_AUTHORIZATION_TOKEN,
 } = require('../const/const.js');
 
 // @route POST api/kyc/addUser
@@ -22,7 +24,7 @@ exports.addUser = async (req, res) => {
 		// if (jwtResult.status === 401) return res.status(401).json({ message: WRONG_JWT });
 		// if (jwtResult.status !== 200) return res.status(401).json({ message: ERROR_WHILE_CHEKING_JWT });
 		
-		const { email, name, lastName, birthday, sex, kyc, address } = req.body;
+		const { email, name, lastName, birthday, sex, address } = req.body;
 		
 		let userByAddress = await Kyc.findOne({ address });
 		
@@ -55,5 +57,26 @@ exports.getUserByAddress = async (req, res) => {
 		res.status(200).send(user);
 	} catch (error) {
 		res.status(500).json({ message: error.message });
+	}
+};
+
+exports.generateSignature = async (req, res) => {
+	try {
+		// authToken = process.env.AUTHORIZATION_TOKEN
+		// if (!req.headers.authorization) return res.status(401).json({ message: MISSING_AUTHORRIZATION_HEADER });
+		// if (req.headers.authorization !== authToken) return res.status(401).json({ message: WRONG_AUTHORIZATION_TOKEN });
+
+		// const jwtResult = await checkJwt(req);
+		// if (jwtResult.status === 401) return res.status(401).json({ message: WRONG_JWT });
+		// if (jwtResult.status !== 200) return res.status(401).json({ message: ERROR_WHILE_CHEKING_JWT });
+		
+		// const {to, nonce } = req.body;
+
+		const signature = prepareSignatureMetamask(req.body)
+		console.log(signature)
+		res.status(200).json(signature);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ success: false, message: error.message });
 	}
 };

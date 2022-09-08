@@ -1,7 +1,3 @@
-const { MessageTypes, TypedMessage } = require('@metamask/eth-sig-util');
-const { BigNumberish } = require('ethers');
-const { TypedDataField, TypedDataDomain } = require('@ethersproject/abstract-signer');
-
 const MintType = [
 	{ name: 'verifier', type: 'address' },
 	{ name: 'to', type: 'address' },
@@ -16,20 +12,8 @@ const EIP712DomainType = [
 	{ name: 'verifyingContract', type: 'address' },
 ];
 
-export interface Message {
-	verifier: string;
-	to: string;
-	tokenId: BigNumberish;
-	nonce: BigNumberish;
-}
 
-export interface SignerLike {
-	address: string;
-	getChainId(): Promise<number>;
-	_signTypedData(domain: TypedDataDomain, types: Record<string, Array<TypedDataField>>, value: Record<string, any>): Promise<string>;
-}
-
-export function buildMessageTest(rawMessage: Message, chainId: number, verifyingContract: string) {
+export function buildMessageTest(rawMessage, chainId, verifyingContract) {
 	const { verifier, to, tokenId, nonce } = rawMessage;
 	return {
 		domain: {
@@ -51,7 +35,7 @@ export function buildMessageTest(rawMessage: Message, chainId: number, verifying
 	};
 }
 
-export function buildMessageMetamask(rawMessage: Message, chainId: number, verifyingContract: string): TypedMessage<MessageTypes> {
+export function buildMessageMetamask(rawMessage, chainId, verifyingContract) {
 	const params = buildMessageTest(rawMessage, chainId, verifyingContract);
 	return {
 		...params,
