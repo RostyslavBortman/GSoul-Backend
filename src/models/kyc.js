@@ -1,13 +1,6 @@
 const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema(
-	// Name: string,
-	// LastName: string,
-	// birthday: timestamp,
-	// email: String,
-	// sex: string,
-	// KYC: bool,
-	// address: string
 
 	{
 		name: {
