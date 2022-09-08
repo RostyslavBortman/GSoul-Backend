@@ -1,7 +1,6 @@
 const MintType = [
 	{ name: 'verifier', type: 'address' },
 	{ name: 'to', type: 'address' },
-	{ name: 'tokenId', type: 'uint256' },
 	{ name: 'nonce', type: 'uint256' },
 ];
 
@@ -13,8 +12,8 @@ const EIP712DomainType = [
 ];
 
 
-export function buildMessageTest(rawMessage, chainId, verifyingContract) {
-	const { verifier, to, tokenId, nonce } = rawMessage;
+const buildMessageTest = (rawMessage, chainId, verifyingContract) => {
+	const { verifierAddress, to, nonce } = rawMessage;
 	return {
 		domain: {
 			chainId,
@@ -23,9 +22,8 @@ export function buildMessageTest(rawMessage, chainId, verifyingContract) {
 			version: '1',
 		},
 		message: {
-			verifier,
+			verifier: verifierAddress,
 			to,
-			tokenId,
 			nonce,
 		},
 		primaryType: 'Mint',
@@ -35,10 +33,12 @@ export function buildMessageTest(rawMessage, chainId, verifyingContract) {
 	};
 }
 
-export function buildMessageMetamask(rawMessage, chainId, verifyingContract) {
+const buildMessageMetamask = (rawMessage, chainId, verifyingContract) => {
 	const params = buildMessageTest(rawMessage, chainId, verifyingContract);
 	return {
 		...params,
 		types: { ...params.types, EIP712Domain: EIP712DomainType },
 	};
 }
+
+module.exports = { buildMessageMetamask };
