@@ -16,7 +16,7 @@ const {
 
 exports.addUser = async (req, res) => {
 	try {
-		if (!req.headers.authorization) return res.status(401).json({ message: MISSING_AUTHORRIZATION_HEADER });
+		// if (!req.headers.authorization) return res.status(401).json({ message: MISSING_AUTHORRIZATION_HEADER });
 
 		const jwtResult = await checkJwt(req);
 		// if (jwtResult.status === 401) return res.status(401).json({ message: WRONG_JWT });
