@@ -19,20 +19,22 @@ exports.addUser = async (req, res) => {
 		if (!req.headers.authorization) return res.status(401).json({ message: MISSING_AUTHORRIZATION_HEADER });
 
 		const jwtResult = await checkJwt(req);
-		if (jwtResult.status === 401) return res.status(401).json({ message: WRONG_JWT });
-		if (jwtResult.status !== 200) return res.status(401).json({ message: ERROR_WHILE_CHEKING_JWT });
-
+		// if (jwtResult.status === 401) return res.status(401).json({ message: WRONG_JWT });
+		// if (jwtResult.status !== 200) return res.status(401).json({ message: ERROR_WHILE_CHEKING_JWT });
+		
 		const { email, name, lastName, birthday, sex, kyc, address } = req.body;
-
+		
 		let userByAddress = await Kyc.findOne({ address });
-
+		
 		if (userByAddress) return res.status(400).json({ message: ERROR_ADDRESS_TAKEN });
-
+		
 		const newKyc = new Kyc({ ...req.body, role: 'basic' });
 		await newKyc.save();
-
+		
 		const user = await Kyc.findOne({ email });
+		
 		res.status(200).json(user);
+		// res.status(200).json(user, 'bad JWT token');
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ success: false, message: error.message });
