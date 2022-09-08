@@ -27,7 +27,7 @@ const UserSchema = new mongoose.Schema(
 		birthday: {
 			type: String,
 			required: false,
-			default: '01/01/1971',
+			default: Date.now(),
 			max: 100,
 		},
 
