@@ -70,9 +70,9 @@ exports.generateSignature = async (req, res) => {
 		// if (jwtResult.status === 401) return res.status(401).json({ message: WRONG_JWT });
 		// if (jwtResult.status !== 200) return res.status(401).json({ message: ERROR_WHILE_CHEKING_JWT });
 
-		const { to, nonce, uri } = req.body;
+		const { to, nonce, uri, verifyingContract } = req.body;
 
-		const signature = prepareSignatureMetamask({ to, nonce, uri });
+		const signature = prepareSignatureMetamask({ to, nonce, uri, verifyingContract });
 		res.status(200).json({ signature });
 	} catch (error) {
 		console.log(error);
